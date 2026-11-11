@@ -89,7 +89,7 @@ def deleteport():
 def sitios_web():
                 v2=Toplevel()
                 v2.title("Sitos Web")
-                v2.geometry("500x400+200+200")
+                v2.geometry("700x400+200+200")
                 text_sitio=font.Font(family="Helvetica",size=14)
 
                 def clean_tiempo():
@@ -179,20 +179,32 @@ def sitios_web():
                                         messagebox.showinfo("INFO", message="Sitio desbloqueado", parent=v2)
                                         label_permitido=Label(v2,text="Bloqueado", bg="green",fg="red",font=text_sitio).place(x=220,y=180)
                                     
-
-                global check_sitio1,  check_sitio2, check_sitio3
+                
+                #Variables
+                global check_sitio1,  check_sitio2, check_sitio3, sitioweb
                 check_sitio1 = StringVar()
                 check_sitio2 = StringVar()
                 check_sitio3 = StringVar()
+                sitioweb = StringVar()
+
+                #check box de sitios web
                 ck1=ttk.Checkbutton(v2, text="www.facebook.com", variable=check_sitio1, command = Block_sitio_web).place(x=50,y=100)
                 ck2=ttk.Checkbutton(v2, text="www.diez.hn", variable=check_sitio2, command = Block_sitio_web)
                 ck2.place(x=50,y=140)
                 ck3=ttk.Checkbutton(v2, text="www.laprensa.hn", variable=check_sitio3, command = Block_sitio_web).place(x=50,y=180)
                 
+                #Labels
+                label_sitio=Label(v2,text="URL sitio web: ", font=text_sitio).place(x=20, y=40)
+                
+                # Cajas de texto
+                txt_sitioweb = Entry(v2, textvariable=sitioweb, width=50).place(x=150, y=40)
+                
+                #Botones de la ventana 2 - Sitios web
                 btn_tiempo=Button(v2,text="Tiempo", bg="brown", fg="white", command=Tiempo_sitio_uth).place(x=250, y=180)
 
                 v2.mainloop()
-
+                
+# Botones de la ventana 0
 btn_add=Button(v0, text="Add_Ports",bg="green",fg="white", command=Addports).place(x=100, y= 50)
 btn_list=Button(v0, text="List port", command=listport).place(x=10, y=50)
 btn_sitios=Button(v0, text="sitios_Web", bg="orange",fg="white", command=sitios_web).place(x=10,y=340)
