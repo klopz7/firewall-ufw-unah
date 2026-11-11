@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Archivo de estado vacío (solo root)
+status
+
+# Copia descargada, no es código del proyecto
+index.html
+
+# Salidas generadas por los scripts
+listport.txt
+bloqueo-*/ips.txt
+bloqueo-*/*.nuevo
