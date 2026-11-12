@@ -8,13 +8,15 @@ import os
 import time
 import subprocess
 
-
+# Apertura v0
 v0=Tk()
 v0.title("Control de puertos firewall")
 v0.geometry("700x500+0+0")
 
 text_gral =font.Font(family="Helvetica", size=12)
 
+###########################################################***************************###############################################
+#Funcion que apertura v1
 def Addports():
                 v1=Toplevel()
                 v1.title("Agregar Puertos")
@@ -52,7 +54,10 @@ def Addports():
                 btn_save = Button(v1, text="Save", bg="green", fg="white", command = save).place(x=390, y=80)
 
                 v1.mainloop()
+                
+############################################********************************************************#################################
 
+# Funciones de v0
 def listport():
                 print("Activando")
                 os.system("sudo /./home/klopz/seguridad/listport.sh > /home/klopz/seguridad/listport.txt")
@@ -85,7 +90,47 @@ def deleteport():
 
                             os.system("sudo /./home/klopz/seguridad/deleteport.sh &")
                             messagebox.showinfo("info", message ="Puerto Eliminado con exito", parent=v0)
+
+def listas_ip_dominios():
+    print("Listando ip de dominio")
+
+    def Consultar_IP_dominio():
+        print("Consultando ip de dominio")
+        s1=str(sitio1.get().strip())
+        s2=str(sitio2.get().strip())
+        resultado = subprocess.run(["sudo","/home/klopz/seguridad/consultar_dominio.sh",s1,s2],capture_output=True,text=True)
+        time.sleep(0.1)
+        valor=subprocess.check_output("cat /home/klopz/seguridad/listarip_dominio.txt",shell=True)
+        area1=scrolledtext.ScrolledText(v0, width=80, height = 10)
+        area1.place(x=10, y=80)
+        area1.insert(END, valor)
+
+        sitio1.set('')
+        sitio2.set('')
+        
+        messagebox.showinfo("INFO", message ="Dominios consultados con exito!",parent=v0)
+
+        
+
+    text_dominio = font.Font(family="Helvetica", size =13)
+    
+    label_sitio1=Label(v0, text="Dominio 1: ", font=text_dominio).place(x=50, y=400)
+    label_sitio2=Label(v0, text="Dominio 2: ", font=text_dominio).place(x=400, y=400)
+    
+    global sitio1, sitio2
+    
+    sitio1=StringVar()
+    sitio2=StringVar()
+
+    txt_st1=Entry(v0, textvariable=sitio1, width=20).place(x=140, y=400)
+    txt_st2=Entry(v0, textvariable=sitio2, width=20).place(x=490, y=400)
+
+    btn_consultar_dominio = Button(v0, text="Consultar", command=Consultar_IP_dominio).place(x=670, y=400)
+    
+
                             
+#################################################***********************************************##################################
+# Funcion que apertura la ventana v2                            
 def sitios_web():
                 v2=Toplevel()
                 v2.title("Sitos Web")
@@ -100,8 +145,7 @@ def sitios_web():
                 def bloquear_sitio():
                     
                     st=str(sitioweb.get().strip())
-                    resultado = subprocess.run(["pkexec","/home/klopz/seguridad/bloquear2_uth.sh",st],capture_output=True,text=True)
-                    print("Bloqueando sitios web dinamico")
+                    resultado = subprocess.run(["pkexec","sudo /home/klopz/seguridad/bloquear2_uth.sh",st],capture_output=True,text=True)
                     messagebox.showinfo("INFO", message ="Sitio bloqueado con exito!",parent=v2)
                     
                     sitioweb.set('')
@@ -210,24 +254,33 @@ def sitios_web():
                 btn_tiempo=Button(v2,text="Tiempo", bg="brown", fg="white", command=Tiempo_sitio_uth).place(x=250, y=180)
                 btn_blk_sitio=Button(v2, text="Bloquear", bg="red", command=bloquear_sitio).place(x=450, y=40)
                                      
-                v2.mainloop()                
+                v2.mainloop()  # Cierre del ciclo de la ventana v2
+                
+###########################################************************************************########################################
+                
 # Botones de la ventana 0
 btn_add=Button(v0, text="Add_Ports",bg="green",fg="white", command=Addports).place(x=100, y= 50)
 btn_list=Button(v0, text="List port", command=listport).place(x=10, y=50)
 btn_sitios=Button(v0, text="sitios_Web", bg="orange",fg="white", command=sitios_web).place(x=10,y=340)
+btn_listarIP=Button(v0, text="Listar IP publica del dominio", bg="orange", fg="white", command=listas_ip_dominios).place(x=150, y=340)
 
-
+# Etiquetas
 label_port = Label(v0, text = "Puerto: ", font = text_gral).place(x=300, y=50)
+label_t2=Label(v0, text="Eliminar", font=text_gral).place(x=550, y=20)
 
+# Variables globales
 global puertodel
 puertodel = StringVar()
-txt_del = Entry(v0, textvariable= puertodel, width=10).place(x=380, y=50)
 global radio
 
+# Cajas de texto
+txt_del = Entry(v0, textvariable= puertodel, width=10).place(x=380, y=50)
+
+# Radio botones
 radio=IntVar()
 r1=ttk.Radiobutton(v0,text="allow",variable=radio,value=1, command=deleteport).place(x=500, y=50)
 r2=ttk.Radiobutton(v0,text="deny", variable=radio, value=2, command=deleteport).place(x=590, y=50)
-label_t2=Label(v0, text="Eliminar", font=text_gral).place(x=550, y=20)
 
-v0.mainloop()
+
+v0.mainloop() # Fin del ciclo de la ventana 0
 
