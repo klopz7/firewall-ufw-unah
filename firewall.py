@@ -97,7 +97,14 @@ def sitios_web():
                     minini.set('')
                     horaf.set('')
                     minf.set('')
-                
+                def bloquear_sitio():
+                    
+                    st=str(sitioweb.get().strip())
+                    resultado = subprocess.run(["pkexec","/home/klopz/seguridad/bloquear2_uth.sh",st],capture_output=True,text=True)
+                    print("Bloqueando sitios web dinamico")
+                    messagebox.showinfo("INFO", message ="Sitio bloqueado con exito!",parent=v2)
+                    
+                    sitioweb.set('')
                 def Tiempo_sitio_uth():
 
                                     def save_tiempo_uth():
@@ -197,13 +204,13 @@ def sitios_web():
                 label_sitio=Label(v2,text="URL sitio web: ", font=text_sitio).place(x=20, y=40)
                 
                 # Cajas de texto
-                txt_sitioweb = Entry(v2, textvariable=sitioweb, width=50).place(x=150, y=40)
+                txt_sitioweb = Entry(v2, textvariable=sitioweb, width=35).place(x=150, y=40)
                 
                 #Botones de la ventana 2 - Sitios web
                 btn_tiempo=Button(v2,text="Tiempo", bg="brown", fg="white", command=Tiempo_sitio_uth).place(x=250, y=180)
-
-                v2.mainloop()
-                
+                btn_blk_sitio=Button(v2, text="Bloquear", bg="red", command=bloquear_sitio).place(x=450, y=40)
+                                     
+                v2.mainloop()                
 # Botones de la ventana 0
 btn_add=Button(v0, text="Add_Ports",bg="green",fg="white", command=Addports).place(x=100, y= 50)
 btn_list=Button(v0, text="List port", command=listport).place(x=10, y=50)
